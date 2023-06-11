@@ -9,7 +9,7 @@ fi
 export PATH=$HOME/bin:$HOME/.local/bin:$HOME/.local/lib:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/rdarga/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 export LANG="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
@@ -80,7 +80,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM=/home/rdarga/.oh-my-zsh/custom
+ZSH_CUSTOM=${HOME}/.oh-my-zsh/custom
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -88,29 +88,28 @@ ZSH_CUSTOM=/home/rdarga/.oh-my-zsh/custom
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-          git
-          zsh-z
-          zsh-completions
-          zsh-syntax-highlighting
+          alias-finder
+          aliases
           ansible
-          kubectl
-          kubectx
-          kube-ps1
-          terraform
+          aws
           docker
           docker-compose
           firewalld
+          git
           helm
+          kubectl
+          kubectx
+          kube-ps1
           rsync
           #systemadmin
           systemd
-          yum
-          zsh-exa
-          alias-finder
-          aliases
-          aws
+          terraform
           vi-mode
+          yum
           zsh-autosuggestions
+          zsh-completions
+          zsh-exa
+          zsh-syntax-highlighting
           zsh-peco-history
 )
 
