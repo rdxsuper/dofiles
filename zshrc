@@ -149,7 +149,7 @@ ZSH_ALIAS_FINDER_AUTOMATIC=true
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-
+POWERLEVEL9K_DISABLE_GITSTATUS=true
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
