@@ -150,6 +150,211 @@ ZSH_ALIAS_FINDER_AUTOMATIC=true
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
 POWERLEVEL9K_DISABLE_GITSTATUS=true
+
+### Env Vars
+export DEF_TX_SESSION=playbooks
+export ARCHREPO_REGION=east
+export BASE=$HOME
+export ANSIBLE_ENV=$BASE/rd_ansible
+export ansible_interpreter=$ANSIBLE_ENV/bin/python
+#export ansible_ssh_private_key_file =../ssh_keys/id_rsa
+
+### Aliases
+# User specific aliases and functions
+### TMUX
+# https://tmuxcheatsheet.com/
+alias txl='tmux ls'
+alias txa='tmux attach -t'
+alias txk='tmux kill-session -t'
+
+### git
+alias gs='git status'
+alias gb='git branch'
+alias gco='git checkout'
+alias gd='git diff'
+alias ga='git add'
+alias gp='git pull'
+alias gu='git push'
+alias gcl='git clone'
+alias gct='git commit -m'
+alias gsc='git status -uno'
+alias gspi='git stash'
+alias gspo='git stash pop'
+
+
+### Ansible
+alias activate='source $ANSIBLE_ENV/bin/activate'
+alias roles='$BASE/playbooks/roles'
+
+### VIM
+alias vim='vim'
+alias svim='sudo vim'
+
+### Bash
+alias ls='ls --group-directories-first --color -p'
+
+### Workflow Docker
+alias workflow='docker run --name rd_ansible_workflow --hostname rahul -it --user $(id -u):$(id -g) --rm -v $(pwd):$(pwd):rw  ghcr.io/lyvecld/ansible-workflow-2.10-alpine:3.10'
+
+### Functions
+function repoeast() {
+  region=east
+  endpoint_url=https://s3.us-${region}-1.lyvecloud.seagate.com/
+  profile=archrepo-rd-${region}1
+  s3_bucket=s3://archsrerepo${region}1
+  cmnd=$1
+  src=$2
+  dest=$3
+  if [[ "$#" -le 4 ]]
+  then
+    case $cmnd in
+          ls) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 ls $s3_bucket/$2
+          ;;
+        cpup) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 cp $src $s3_bucket/$dest
+          ;;
+      cpdown) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 cp $s3_bucket/$src $dest
+          ;;
+           *) echo "
+                ls      -  To  list
+                cpup    -  To  Upload
+                cpdown  -  To  Download
+"
+    esac
+  else
+    echo "Takes only 4 arguments"
+  fi
+}
+
+
+function repowest() {
+  region=west
+  endpoint_url=https://s3.us-${region}-1.lyvecloud.seagate.com/
+  profile=archrepo-rd-${region}1
+  s3_bucket=s3://archsrerepo${region}1
+  cmnd=$1
+  src=$2
+  dest=$3
+  if [[ "$#" -le 4 ]]
+  then
+    case $cmnd in
+          ls) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 ls $s3_bucket/$2
+          ;;
+        cpup) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 cp $src $s3_bucket/$dest
+          ;;
+      cpdown) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 cp $s3_bucket/$src $dest
+          ;;
+           *) echo "
+                ls      -  To  list
+                cpup    -  To  Upload
+                cpdown  -  To  Download
+"
+    esac
+  else
+    echo "Takes only 4 arguments"
+  fi
+}
+
+function repocentral() {
+  region=central
+  endpoint_url=https://s3.us-${region}-1.lyvecloud.seagate.com/
+  profile=archrepo-rd-${region}1
+  s3_bucket=s3://archrepo${region}1
+  cmnd=$1
+  src=$2
+  dest=$3
+  if [[ "$#" -le 4 ]]
+  then
+    case $cmnd in
+          ls) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 ls $s3_bucket/$2
+          ;;
+        cpup) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 cp $src $s3_bucket/$dest
+          ;;
+      cpdown) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 cp $s3_bucket/$src $dest
+          ;;
+      sync) TZ=":UTC" aws --endpoint-url $endpoint_url --profile $profile s3 cp $s3_bucket/$src $dest
+          ;;
+
+           *) echo "
+                ls      -  To  list
+                cpup    -  To  Upload
+                cpdown  -  To  Download
+                sync -  To Sync
+"
+    esac
+  else
+    echo "Takes only 4 arguments"
+  fi
+}
+
+function farm() {
+  region=us-west-1
+  endpoint_url=https://s3.us-west-1.svl.lyvecloud.seagate.com/
+  profile=farmlogs
+  s3_bucket=s3://stx-usw2-ehc-lyve-pilot-feeds/Lyvecloud/FARM/
+  cmnd=$1
+  src=$2
+  dest=$3
+  if [[ "$#" -le 4 ]]
+  then
+    case $cmnd in
+          ls) TZ=":UTC" aws  --profile $profile s3 ls $s3_bucket
+          ;;
+        cpup) TZ=":UTC" aws  --profile $profile s3 cp $src $s3_bucket/$dest
+          ;;
+      cpdown) TZ=":UTC" aws  --profile $profile s3 cp $s3_bucket/$src $dest
+          ;;
+           *) echo "
+                ls      -  To  list
+                cpup    -  To  Upload
+                cpdown  -  To  Download
+"
+              ;;
+    esac
+  else
+    echo "Takes only 4 arguments"
+  fi
+}
+
+
+function txn() {
+  ##if [[ -z $1 ]]
+  ##then
+  ##  echo "Please provide a name for the session"
+  ##elif [[ -n $1 && $1 != "rd_playbooks" ]]
+  if [[ $1 -eq "rd_playbooks" || -z $1 ]]
+  then
+    tmux has-session -t rd_playbooks
+    y=$?
+    if [[ $y -eq 0 ]]
+    then
+      txa rd_playbooks
+    else
+      echo 2
+      tmux new-session -s rd_playbooks
+    fi
+  elif [[ -n $1 && $1 != "rd_playbooks" ]]
+  then
+    echo 1
+    tmux new-session -s rd_$1
+  fi
+}
+
+playbooks() {
+  cd $BASE/playbooks
+
+  if [[ $rd_env -eq 0 ]]
+  then
+    activate
+    sed 's/rd_env=0/rd_env=1/g' $BASE/.rd_vars
+  fi
+
+  if [[ $rd_gs -eq 0 ]]
+  then
+    git status
+    sed 's/rd_gs=0/rd_gs=1/g' $BASE/.rd_vars
+  fi
+}
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
