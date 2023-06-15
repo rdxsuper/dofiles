@@ -155,7 +155,7 @@ POWERLEVEL9K_DISABLE_GITSTATUS=true
 export DEF_TX_SESSION=playbooks
 export ARCHREPO_REGION=east
 export BASE=$HOME
-export ANSIBLE_ENV=$BASE/rd_ansible
+export ANSIBLE_ENV=/usr/local
 export ansible_interpreter=$ANSIBLE_ENV/bin/python
 #export ansible_ssh_private_key_file =../ssh_keys/id_rsa
 
@@ -191,7 +191,7 @@ alias vim='vim'
 alias svim='sudo vim'
 
 ### Bash
-alias ls='ls --group-directories-first --color -p'
+#alias ls='ls --group-directories-first --color -p'
 
 ### Workflow Docker
 alias workflow='docker run --name rd_ansible_workflow --hostname rahul -it --user $(id -u):$(id -g) --rm -v $(pwd):$(pwd):rw  ghcr.io/lyvecld/ansible-workflow-2.10-alpine:3.10'
