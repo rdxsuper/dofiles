@@ -359,4 +359,4 @@ playbooks() {
 bindkey '^f' autosuggest-accept
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ${ZSH_SHELL_WORKFLOWS_BASE_DIR}/.p10k.zsh ]] || source {ZSH_SHELL_WORKFLOWS_BASE_DIR}/.p10k.zsh
+[[ ! -f ${ZSH_SHELL_WORKFLOWS_BASE_DIR}/.p10k.zsh ]] || source ${ZSH_SHELL_WORKFLOWS_BASE_DIR}/.p10k.zsh
