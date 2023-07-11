@@ -151,14 +151,25 @@ ZSH_ALIAS_FINDER_AUTOMATIC=true
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
 POWERLEVEL9K_DISABLE_GITSTATUS=true
 
-if [[ ! -f ~/.exports.txt ]]; then
+
+if [[ -f ${HOME}/.exports.txt ]]; then
   source ${HOME}/.exports.txt
 fi
 
-if [[ ! -f ${HOME}/.aliases.txt ]]; then
+if [[ -f ${HOME}/.aliases.txt ]]; then
   source ${HOME}/.aliases.txt
 fi
 
+if [[ -f ${HOME}/opt/bin/redis-server ]]; then
+  "${HOME}"/opt/bin/redis-server "${HOME}"/opt/redis/etc/redis.conf
+  result=$("${HOME}"/opt/bin/redis-cli ping)
+
+  if [[ $result == "PONG" ]]; then
+    echo "Redis started!!!"
+  else
+    echo "Redis failed to start!!!"
+  fi
+fi
 
 # zsh-autosuggestions
 bindkey '^f' autosuggest-accept
